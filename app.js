@@ -93,38 +93,14 @@ function renderHero(heroData) {
       </div>
 
       <div class="hero-photo-collage-container">
-        <div class="photo-mosaic-stack">
-          <!-- Back Polaroid 1: Childhood Baby Photo -->
-          <div class="mosaic-item m1" style="--rot: -10;">
-            <div class="washi-tape top-left sage"></div>
-            <div class="polaroid">
-              <div class="polaroid-img-wrapper">
-                <img src="${heroData.image1}" alt="Childhood Memory 1" style="object-position: top;">
-              </div>
-              <div class="polaroid-caption" style="font-family: var(--font-handwritten); font-size: 1rem; margin-top: 0.25rem;">Baby Days</div>
+        <!-- Single Featured Polaroid displaying assets/2.jpeg -->
+        <div class="single-polaroid-container">
+          <div class="washi-tape top-center terracotta"></div>
+          <div class="polaroid">
+            <div class="polaroid-img-wrapper">
+              <img src="${heroData.image3}" alt="Forever Sibling Bond">
             </div>
-          </div>
-          
-          <!-- Back Polaroid 2: Childhood Chairs -->
-          <div class="mosaic-item m2" style="--rot: 10;">
-            <div class="washi-tape top-right mustard"></div>
-            <div class="polaroid">
-              <div class="polaroid-img-wrapper">
-                <img src="${heroData.image2}" alt="Childhood Memory 2">
-              </div>
-              <div class="polaroid-caption" style="font-family: var(--font-handwritten); font-size: 1rem; margin-top: 0.25rem;">Matching - Matching </div>
-            </div>
-          </div>
-          
-          <!-- Front Polaroid 3: Balcony Portrait -->
-          <div class="mosaic-item m3" style="--rot: -3;">
-            <div class="washi-tape top-center terracotta"></div>
-            <div class="polaroid">
-              <div class="polaroid-img-wrapper">
-                <img src="${heroData.image3}" alt="Balcony Portrait">
-              </div>
-              <div class="polaroid-caption" style="font-family: var(--font-handwritten); font-size: 1rem; margin-top: 0.25rem;">Forever Sibling Bond</div>
-            </div>
+            <div class="polaroid-caption" style="font-family: var(--font-handwritten); font-size: 1.15rem; margin-top: 0.5rem; text-align: center;">Forever Sibling Bond</div>
           </div>
         </div>
       </div>
@@ -600,51 +576,41 @@ window.unlockMissingPolaroidText = function() {
  */
 function setupHeroInteractions() {
   const hero = document.getElementById("hero");
-  const items = document.querySelectorAll(".mosaic-item");
-  if (!hero) return;
+  const item = document.querySelector(".single-polaroid-container");
+  if (!hero || !item) return;
 
   // Track cursor mousemove for subtle parallax
   hero.addEventListener("mousemove", (e) => {
+    if (item.classList.contains("hovered")) return;
+
     const rect = hero.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
 
-    items.forEach((item, index) => {
-      // Do not apply coordinates transform if card is directly hovered
-      if (item.classList.contains("hovered")) return;
+    const moveX = x * 0.04;
+    const moveY = y * 0.04;
+    const rotOffset = (x * 0.008);
 
-      const depth = (index + 1) * 0.04;
-      const moveX = x * depth;
-      const moveY = y * depth;
-
-      const rot = parseFloat(item.getAttribute("style").match(/--rot:\s*(-?\d+)/)[1]) || 0;
-      const rotOffset = (x * 0.006) * (index % 2 === 0 ? 1 : -1);
-
-      item.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rot + rotOffset}deg) scale(1)`;
-    });
+    item.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${-2 + rotOffset}deg) scale(1)`;
   });
 
   // Reset positions on leave
   hero.addEventListener("mouseleave", () => {
-    items.forEach((item) => {
-      if (!item.classList.contains("hovered")) {
-        item.style.transform = "";
-      }
-    });
+    if (!item.classList.contains("hovered")) {
+      item.style.transform = "";
+    }
   });
 
   // Bind mouse hover zoom overrides
-  items.forEach((item) => {
-    item.addEventListener("mouseenter", () => {
-      item.classList.add("hovered");
-      item.style.transform = "translateY(-10px) rotate(0deg) scale(1.03)";
-      item.style.zIndex = "25";
-    });
+  item.addEventListener("mouseenter", () => {
+    item.classList.add("hovered");
+    item.style.transform = "translateY(-10px) rotate(0deg) scale(1.04)";
+    item.style.zIndex = "25";
+  });
 
-    item.addEventListener("mouseleave", () => {
-      item.classList.remove("hovered");
-      item.style.transform = "";
-      item.style.zIndex = "";
-    });
+  item.addEventListener("mouseleave", () => {
+    item.classList.remove("hovered");
+    item.style.transform = "";
+    item.style.zIndex = "";
   });
 }
