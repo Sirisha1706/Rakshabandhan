@@ -36,6 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Setup Interactive Events
   setupCardFlips();
   setupSmoothScrolling();
+  setupHeroInteractions();
+
+  // Trigger loaded class for Hero animations
+  setTimeout(() => {
+    document.body.classList.add("loaded");
+  }, 100);
 });
 
 /**
@@ -45,34 +51,51 @@ function renderHero(heroData) {
   const container = document.getElementById("hero-container");
   if (!container) return;
 
-  // Create ambient floating elements (gold dust/leaf fragments)
+  // Create ambient floating elements (gold dust/marigold leaf fragments)
   let particlesHTML = "";
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 22; i++) {
     const delay = (Math.random() * 8).toFixed(1);
     const left = (Math.random() * 100).toFixed(0);
-    const size = (Math.random() * 8 + 4).toFixed(0);
-    particlesHTML += `<div class="floating-particle" style="left: ${left}%; animation-delay: ${delay}s; width: ${size}px; height: ${size}px;"></div>`;
+    const size = (Math.random() * 10 + 6).toFixed(0);
+    // Alternate between marigold petal and gold spark particles
+    const typeClass = Math.random() > 0.45 ? "marigold" : "spark";
+    particlesHTML += `<div class="floating-particle ${typeClass}" style="left: ${left}%; animation-delay: ${delay}s; width: ${size}px; height: ${size}px;"></div>`;
   }
 
+  // Generate 20 fairy lights bulbs
+  let lightsHTML = "";
+  for (let i = 0; i < 20; i++) {
+    lightsHTML += `<li></li>`;
+  }
+
+  // Wrap the heart emoji in a span class for spring scaling
+  const formattedTitle = heroData.title.replace("❤️", '<span class="heart-emoji">❤️</span>');
+  const formattedButtonText = heroData.scrollButtonText.replace("↓", '<span class="arrow-char">↓</span>');
+
   container.innerHTML = `
-    <!-- Floating Gold Dust Particles -->
+    <!-- Subtle Background Decor Dot Grid -->
+    <div class="hero-bg-decor"></div>
+
+    <!-- Glowing Festive Fairy Lights -->
+    <ul class="fairy-lights">${lightsHTML}</ul>
+
+    <!-- Floating Gold Dust & Marigold Particles -->
     <div class="particle-container">${particlesHTML}</div>
 
     <div class="hero-grid">
-      <div class="hero-content reveal">
-        <div class="ink-stamp hero-stamp">Est. 1990s</div>
-        <h1 class="hero-title">${heroData.title}</h1>
+      <div class="hero-content">
+        <h1 class="hero-title">${formattedTitle}</h1>
         <p class="hero-subheading">${heroData.subheading}</p>
         <p class="hero-message">${heroData.personalMessage}</p>
         <button class="scroll-btn" onclick="scrollToNextSection()">
-          ${heroData.scrollButtonText}
+          ${formattedButtonText}
         </button>
       </div>
 
-      <div class="hero-photo-collage-container reveal reveal-delay-2">
+      <div class="hero-photo-collage-container">
         <div class="photo-mosaic-stack">
           <!-- Back Polaroid 1: Childhood Baby Photo -->
-          <div class="mosaic-item m1">
+          <div class="mosaic-item m1" style="--rot: -10;">
             <div class="washi-tape top-left sage"></div>
             <div class="polaroid">
               <div class="polaroid-img-wrapper">
@@ -83,18 +106,18 @@ function renderHero(heroData) {
           </div>
           
           <!-- Back Polaroid 2: Childhood Chairs -->
-          <div class="mosaic-item m2">
+          <div class="mosaic-item m2" style="--rot: 10;">
             <div class="washi-tape top-right mustard"></div>
             <div class="polaroid">
               <div class="polaroid-img-wrapper">
                 <img src="${heroData.image2}" alt="Childhood Memory 2">
               </div>
-              <div class="polaroid-caption" style="font-family: var(--font-handwritten); font-size: 1rem; margin-top: 0.25rem;">Double Trouble</div>
+              <div class="polaroid-caption" style="font-family: var(--font-handwritten); font-size: 1rem; margin-top: 0.25rem;">Matching - Matching </div>
             </div>
           </div>
           
           <!-- Front Polaroid 3: Balcony Portrait -->
-          <div class="mosaic-item m3">
+          <div class="mosaic-item m3" style="--rot: -3;">
             <div class="washi-tape top-center terracotta"></div>
             <div class="polaroid">
               <div class="polaroid-img-wrapper">
@@ -247,12 +270,15 @@ function renderTimeline(timelineMessages) {
   if (!container) return;
 
   container.innerHTML = timelineMessages
-    .map((item, index) => `
-      <div class="timeline-item reveal">
-        <div class="timeline-icon">${item.icon}</div>
-        <div class="timeline-content">${item.text}</div>
-      </div>
-    `).join("");
+    .map((item, index) => {
+      const alignment = index % 2 === 0 ? "left" : "right";
+      return `
+        <div class="timeline-item ${alignment} reveal reveal-delay-${(index % 2) + 1}">
+          <div class="timeline-icon">${item.icon}</div>
+          <div class="timeline-content">${item.text}</div>
+        </div>
+      `;
+    }).join("");
 }
 
 /**
@@ -568,3 +594,57 @@ window.unlockMissingPolaroidText = function() {
   polaroid.classList.remove("locked");
   polaroid.classList.add("unlocked");
 };
+
+/**
+ * 10. Setup Premium Hero Cursor Parallax & Direct Hovers
+ */
+function setupHeroInteractions() {
+  const hero = document.getElementById("hero");
+  const items = document.querySelectorAll(".mosaic-item");
+  if (!hero) return;
+
+  // Track cursor mousemove for subtle parallax
+  hero.addEventListener("mousemove", (e) => {
+    const rect = hero.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    items.forEach((item, index) => {
+      // Do not apply coordinates transform if card is directly hovered
+      if (item.classList.contains("hovered")) return;
+
+      const depth = (index + 1) * 0.04;
+      const moveX = x * depth;
+      const moveY = y * depth;
+
+      const rot = parseFloat(item.getAttribute("style").match(/--rot:\s*(-?\d+)/)[1]) || 0;
+      const rotOffset = (x * 0.006) * (index % 2 === 0 ? 1 : -1);
+
+      item.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rot + rotOffset}deg) scale(1)`;
+    });
+  });
+
+  // Reset positions on leave
+  hero.addEventListener("mouseleave", () => {
+    items.forEach((item) => {
+      if (!item.classList.contains("hovered")) {
+        item.style.transform = "";
+      }
+    });
+  });
+
+  // Bind mouse hover zoom overrides
+  items.forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+      item.classList.add("hovered");
+      item.style.transform = "translateY(-10px) rotate(0deg) scale(1.03)";
+      item.style.zIndex = "25";
+    });
+
+    item.addEventListener("mouseleave", () => {
+      item.classList.remove("hovered");
+      item.style.transform = "";
+      item.style.zIndex = "";
+    });
+  });
+}

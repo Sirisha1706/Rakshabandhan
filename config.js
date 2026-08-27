@@ -48,11 +48,11 @@ window.CONFIG = {
         playfulNote: "Verdict: You definitely fed me a way bigger bite than you should have for the camera!"
       },
       {
-        id: "birthday-cake-swap",
-        title: "Returning the Favor",
-        description: "Returning the favor on your birthday by feeding you cake. It's one of those rare, peaceful moments where we stopped arguing for five seconds and actually pretended to be sweet siblings.",
-        image: "assets/6.jpeg", // Sirisha feeding Vamsi cake
-        playfulNote: "Special Skill: Shoving cake in your mouth just to keep you from complaining to Mom."
+        id: "lazy-outings",
+        title: "Lazy Family Outings",
+        description: "A cozy selfie from one of those lazy days when the entire family of four—Mom, Dad, you, and me—were in absolutely no mood to cook at home. We stepped out together to grab a quick bite and enjoy some quality family time.",
+        image: "assets/8.png", // Swapped restaurant selfie photo
+        playfulNote: "Family Rule: When nobody wants to cook, dining out is our favorite family decision!"
       }
     ]
   },
@@ -104,15 +104,11 @@ window.CONFIG = {
         }
       },
       {
-        title: "Restaurant Selfies",
-        caption: "Selfie time before the food arrived. Cozy sibling dinners.",
-        date: "Evening Out, 2024",
-        image: "assets/8.png",
-        rotation: -3,
-        quiz: {
-          question: "Who ate more during this cozy dinner?",
-          options: ["Vamsi 🍔", "Sirisha 🍕"]
-        }
+        title: "Birthday Cake Swap",
+        caption: "Returning the favor by feeding you cake. It's one of those rare, peaceful moments where we actually stopped teasing each other for five seconds.",
+        date: "Celebrations",
+        image: "assets/6.jpeg", // Swapped cake swap photo
+        rotation: -3
       },
       {
         title: "Nostalgic Childhood",
@@ -165,12 +161,12 @@ window.CONFIG = {
 
   // 6. "Things I Wish I Said More Often" - Scroll Timeline
   timelineMessages: [
-    { text: "I miss you.", icon: "💭" },
-    { text: "I don't say it enough, but you mean a lot to me.", icon: "✨" },
-    { text: "Sometimes I wish we could go back to those carefree days.", icon: "🎈" },
-    { text: "Even when we're far apart, you're still a part of my everyday thoughts.", icon: "🌍" },
-    { text: "Thank you for being my brother.", icon: "🤍" },
-    { text: "Wherever life takes us, you'll always have me.", icon: "🤝" }
+    { text: "I miss you more than I ever admit, Annaya.", icon: "💭" },
+    { text: "I don't say it enough, but you are the strongest support in my life.", icon: "✨" },
+    { text: "Even when we don't speak, you are the first person I want to share my happy news with.", icon: "🌍" },
+    { text: "Thank you for holding my hand when childhood got scary, and for looking out for me since.", icon: "🤍" },
+    { text: "I am so incredibly proud to see you succeed and grow.", icon: "🎈" },
+    { text: "No matter where life takes us, you will always have my back, and I will always have yours.", icon: "🤝" }
   ],
 
   // 7. "I'm Missing You"
@@ -207,7 +203,7 @@ window.CONFIG = {
       "No matter how many stupid fights we have..."
     ],
     highlightText: "You'll always be my brother. And I'll always be your sister.",
-    wishesText: "Happy Raksha Bandhan, Vamsi Krishna. ❤️",
+    wishesText: "Happy Raksha Bandhan, Annaya. ❤️",
     signatureText: "— Sirisha",
     image: "assets/3.jpeg" // Celebrate attire portrait for the final happy wishes
   }

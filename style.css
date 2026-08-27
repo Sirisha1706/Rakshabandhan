@@ -222,28 +222,137 @@ section {
 
 .floating-particle {
   position: absolute;
-  bottom: -20px;
-  background: rgba(212, 155, 65, 0.25); /* Gold dust */
-  border-radius: 50%;
-  animation: float-up 8s ease-in-out infinite;
+  bottom: -30px;
   transform-origin: center;
 }
 
-@keyframes float-up {
+/* Organic Marigold Petals */
+.floating-particle.marigold {
+  background: radial-gradient(circle, #ffb03a 0%, #e06000 100%);
+  border-radius: 50% 0 50% 50%; /* Petal shape */
+  transform: rotate(45deg);
+  box-shadow: inset 1px 1px 4px rgba(255, 255, 255, 0.3);
+  animation: float-rotate-marigold 9s ease-in-out infinite;
+}
+
+/* Golden Sparks */
+.floating-particle.spark {
+  background: #ffebb0;
+  box-shadow: 0 0 12px #ffc547, 0 0 4px #fff;
+  border-radius: 50%;
+  animation: float-up-spark 6s ease-in-out infinite;
+}
+
+@keyframes float-rotate-marigold {
+  0% {
+    transform: translateY(0) rotate(45deg) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.75;
+  }
+  85% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(-110vh) rotate(320deg) translateX(60px);
+    opacity: 0;
+  }
+}
+
+@keyframes float-up-spark {
   0% {
     transform: translateY(0) scale(1) translateX(0);
     opacity: 0;
   }
   15% {
-    opacity: 0.6;
+    opacity: 0.8;
   }
   85% {
-    opacity: 0.6;
+    opacity: 0.8;
   }
   100% {
-    transform: translateY(-105vh) scale(0.6) translateX(40px);
+    transform: translateY(-110vh) scale(0.4) translateX(-45px);
     opacity: 0;
   }
+}
+
+/* Festive Fairy Lights Hanging Toran */
+.fairy-lights {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0 1rem;
+  list-style: none;
+  z-index: 10;
+  pointer-events: none;
+  box-sizing: border-box;
+  background: repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(43, 41, 39, 0.2) 40px, rgba(43, 41, 39, 0.2) 42px); /* Cable simulation */
+  height: 20px;
+  border-bottom: 1px solid rgba(43, 41, 39, 0.08);
+}
+
+.fairy-lights li {
+  width: 10px;
+  height: 15px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: #ffdb70;
+  box-shadow: 0px 4px 15px rgba(255, 219, 112, 0.7);
+  animation: lights-glow-1 1.2s infinite alternate ease-in-out;
+  position: relative;
+}
+
+/* Socket cap for bulb */
+.fairy-lights li::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: calc(50% - 3px);
+  width: 6px;
+  height: 4px;
+  background: #555;
+  border-radius: 1px;
+}
+
+/* Stagger light colors and glow timings */
+.fairy-lights li:nth-child(2n) {
+  animation-name: lights-glow-2;
+  animation-duration: 1.6s;
+  background: #ffa154;
+  box-shadow: 0px 4px 15px rgba(255, 161, 84, 0.7);
+}
+
+.fairy-lights li:nth-child(3n) {
+  animation-name: lights-glow-3;
+  animation-duration: 2s;
+  background: #d4634f;
+  box-shadow: 0px 4px 15px rgba(212, 99, 79, 0.7);
+}
+
+.fairy-lights li:nth-child(4n) {
+  animation-name: lights-glow-1;
+  animation-duration: 1.4s;
+  background: #84a68c;
+  box-shadow: 0px 4px 15px rgba(132, 166, 140, 0.7);
+}
+
+@keyframes lights-glow-1 {
+  0% { opacity: 0.5; transform: translateY(0) scale(0.9); }
+  100% { opacity: 1; transform: translateY(2px) scale(1.05); box-shadow: 0px 6px 20px #ffdb70; }
+}
+
+@keyframes lights-glow-2 {
+  0% { opacity: 0.4; transform: translateY(0) scale(0.9); }
+  100% { opacity: 1; transform: translateY(2px) scale(1.05); box-shadow: 0px 6px 20px #ffa154; }
+}
+
+@keyframes lights-glow-3 {
+  0% { opacity: 0.6; transform: translateY(0) scale(0.95); }
+  100% { opacity: 1; transform: translateY(2px) scale(1.05); box-shadow: 0px 6px 20px #d4634f; }
 }
 
 #hero {
@@ -257,9 +366,28 @@ section {
   background: linear-gradient(180deg, #fdfcf7 0%, #f7f3eb 100%);
 }
 
+#hero::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.015; /* Barely noticeable paper grain */
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-bg-decor {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: radial-gradient(rgba(43, 41, 39, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .hero-grid {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1fr 1fr;
   gap: 4rem;
   align-items: center;
   width: 100%;
@@ -273,11 +401,47 @@ section {
   justify-content: center;
 }
 
+/* Staggered page load entrance animation styles */
+.hero-stamp {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1s ease, transform 1s ease;
+  transition-delay: 0.2s;
+}
+
+.loaded .hero-stamp {
+  opacity: 0.85;
+  transform: translateY(0);
+}
+
 .hero-title {
   font-size: 3.75rem;
   color: var(--accent-terracotta);
   margin-bottom: 1.5rem;
   text-shadow: 1px 1px 0px #fff, 2px 2px 0px rgba(212, 155, 65, 0.3), 3px 3px 6px rgba(43, 41, 39, 0.08);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition-delay: 0.4s;
+}
+
+.loaded .hero-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Heart emoji scale in animation on load */
+.hero-title .heart-emoji {
+  display: inline-block;
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease;
+  transition-delay: 1.2s;
+}
+
+.loaded .hero-title .heart-emoji {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .hero-subheading {
@@ -289,6 +453,15 @@ section {
   line-height: 1.4;
   border-left: 2px solid var(--accent-mustard);
   padding-left: 1.25rem;
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 1s ease, transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition-delay: 0.7s;
+}
+
+.loaded .hero-subheading {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .hero-message {
@@ -296,8 +469,18 @@ section {
   color: var(--text-main);
   margin-bottom: 3rem;
   max-width: 580px;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 1s ease, transform 1s ease;
+  transition-delay: 0.9s;
 }
 
+.loaded .hero-message {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Interactive Scroll Button */
 .scroll-btn {
   background: none;
   border: none;
@@ -309,12 +492,50 @@ section {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: transform 0.3s ease;
+  position: relative;
+  overflow: visible;
   outline: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s ease, transform 1s ease;
+  transition-delay: 1.5s;
+  padding-bottom: 4px;
 }
 
-.scroll-btn:hover {
-  transform: translateY(4px);
+.loaded .scroll-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom cursive line trace on scroll button */
+.scroll-btn::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent-sage);
+  transition: width 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.scroll-btn:hover::after {
+  width: 100%;
+}
+
+/* Animate the arrow downwards on hover */
+.scroll-btn .arrow-char {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.scroll-btn:hover .arrow-char {
+  animation: bounce-arrow 1.2s infinite ease-in-out;
+}
+
+@keyframes bounce-arrow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
 }
 
 /* Photo Mosaic Overlapping Stack */
@@ -328,16 +549,17 @@ section {
 
 .photo-mosaic-stack {
   position: relative;
-  width: 320px;
-  height: 380px;
+  width: 480px;
+  height: 450px;
 }
 
 .mosaic-item {
   position: absolute;
-  width: 175px;
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
-              z-index 0.5s ease, 
-              opacity 0.5s ease;
+  width: 220px;
+  opacity: 0;
+  transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              opacity 1.2s ease, 
+              z-index 0.3s ease;
 }
 
 .mosaic-item .polaroid {
@@ -352,41 +574,50 @@ section {
   aspect-ratio: 1/1;
 }
 
-/* Offset coordinates for each Polaroid */
+/* Offset coordinates for each Polaroid & Entrance Starting Points */
 .mosaic-item.m1 {
-  top: 10px;
-  left: 10px;
-  transform: rotate(-10deg);
+  top: -50px;
+  left: 25px;
+  transform: rotate(-25deg) scale(0.8) translateY(40px);
   z-index: 1;
+  transition-delay: 1.1s;
 }
 
 .mosaic-item.m2 {
-  bottom: 20px;
-  right: 10px;
-  transform: rotate(8deg);
+  top: -15px;
+  right: -5px;
+  transform: rotate(25deg) scale(0.8) translateY(40px);
   z-index: 2;
+  transition-delay: 1.3s;
 }
 
 .mosaic-item.m3 {
-  top: 75px;
-  left: 65px;
-  transform: rotate(3deg);
-  z-index: 3; /* Front most card center */
+  bottom: -25px;
+  left: 115px;
+  transform: rotate(-15deg) scale(0.8) translateY(40px);
+  z-index: 3;
+  transition-delay: 1.5s;
 }
 
-/* Hover stack animation - floats card and dims others */
-.photo-mosaic-stack:hover .mosaic-item {
-  opacity: 0.55;
+/* Final positions once loaded */
+.loaded .mosaic-item.m1 {
+  opacity: 1;
+  transform: rotate(-10deg) translate(0, 0) scale(1);
 }
 
-.photo-mosaic-stack .mosaic-item:hover {
-  transform: scale(1.1) rotate(0deg) translateY(-10px) !important;
-  opacity: 1 !important;
-  z-index: 10 !important;
+.loaded .mosaic-item.m2 {
+  opacity: 1;
+  transform: rotate(10deg) translate(0, 0) scale(1);
 }
 
-.photo-mosaic-stack .mosaic-item:hover .polaroid {
-  box-shadow: 0 18px 45px rgba(43, 41, 39, 0.16);
+.loaded .mosaic-item.m3 {
+  opacity: 1;
+  transform: rotate(-3deg) translate(0, 0) scale(1);
+}
+
+/* Direct hovers on cards receive a subtle shadow */
+.mosaic-item.hovered .polaroid {
+  box-shadow: 0 12px 30px rgba(43, 41, 39, 0.12);
 }
 
 /* ----------------------------------------------------
@@ -549,7 +780,7 @@ section {
 /* Ensure polaroids look consistent and size correctly */
 .scattered-item .polaroid {
   width: 100%;
-  max-width: 255px;
+  max-width: 295px;
 }
 
 /* Hover effect straightens polaroids and floats them up */
@@ -706,31 +937,51 @@ section {
 #timeline-section {
   background-color: #fdfbf7;
   padding: 6rem 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .timeline {
-  max-width: 700px;
+  max-width: 850px;
   margin: 4rem auto 0 auto;
   position: relative;
 }
 
+/* Center timeline vertical wire line on desktop */
 .timeline::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 30px;
+  left: 50%;
   width: 2px;
   height: 100%;
   background: linear-gradient(to bottom, transparent, var(--accent-mustard) 10%, var(--accent-mustard) 90%, transparent);
+  transform: translateX(-50%);
 }
 
 .timeline-item {
   position: relative;
-  margin-bottom: 3.5rem;
-  padding-left: 70px;
+  margin-bottom: 4rem;
+  width: 50%;
+  box-sizing: border-box;
   opacity: 0;
-  transform: translateX(-30px);
-  transition: var(--transition-smooth);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Left branched items */
+.timeline-item.left {
+  left: 0;
+  padding-right: 45px;
+  text-align: right;
+  transform: translateX(-40px);
+}
+
+/* Right branched items */
+.timeline-item.right {
+  left: 50%;
+  padding-left: 45px;
+  text-align: left;
+  transform: translateX(40px);
 }
 
 .timeline-item.revealed {
@@ -738,33 +989,80 @@ section {
   transform: translateX(0);
 }
 
+/* Timeline Heart node pin centered on desktop */
 .timeline-icon {
   position: absolute;
-  left: 15px;
-  top: -2px;
-  width: 32px;
-  height: 32px;
-  background-color: var(--bg-paper);
-  border: 2px solid var(--accent-mustard);
+  top: 10px;
+  width: 38px;
+  height: 38px;
+  background-color: #fff;
+  border: 2px solid var(--accent-terracotta);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  z-index: 2;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  font-size: 1.15rem;
+  z-index: 5;
+  box-shadow: 0 4px 10px rgba(212, 99, 79, 0.15);
+  animation: heartbeat-pulse 2s infinite alternate ease-in-out;
 }
 
+@keyframes heartbeat-pulse {
+  0% { transform: scale(1); box-shadow: 0 4px 10px rgba(212, 99, 79, 0.15); }
+  100% { transform: scale(1.08); box-shadow: 0 6px 18px rgba(212, 99, 79, 0.3); }
+}
+
+.timeline-item.left .timeline-icon {
+  right: -19px;
+}
+
+.timeline-item.right .timeline-icon {
+  left: -19px;
+}
+
+/* Card content styled like a pinned cursive note */
 .timeline-content {
-  background: var(--bg-paper);
-  padding: 1.25rem 2rem;
+  background: #fffffb; /* clean paper color */
+  padding: 1.5rem 2rem;
   border-radius: 12px;
-  box-shadow: 0 8px 20px var(--accent-shadow);
-  font-family: var(--font-serif);
-  font-size: 1.35rem;
-  font-style: italic;
+  box-shadow: 0 10px 25px rgba(43, 41, 39, 0.05);
+  font-family: var(--font-handwritten);
+  font-size: 1.5rem;
+  line-height: 1.4;
   color: var(--text-main);
-  border: 1px solid rgba(43, 41, 39, 0.02);
+  border: 1px solid rgba(43, 41, 39, 0.06);
+  position: relative;
+  display: inline-block;
+  max-width: 90%;
+  text-align: left;
+}
+
+.timeline-item.left .timeline-content {
+  border-right: 3px solid var(--accent-sage);
+}
+
+.timeline-item.right .timeline-content {
+  border-left: 3px solid var(--accent-terracotta);
+}
+
+/* Notebook post-it visual overlay pinned effect */
+.timeline-content::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  width: 14px;
+  height: 14px;
+  background-color: var(--accent-mustard);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.timeline-item.left .timeline-content::before {
+  right: 1.5rem;
+}
+
+.timeline-item.right .timeline-content::before {
+  left: 1.5rem;
 }
 
 /* ----------------------------------------------------
@@ -1116,6 +1414,37 @@ section {
   .scattered-item .polaroid {
     width: 100%;
     transform: rotate(var(--rot)) !important; /* fallback rotation loaded in app.js */
+  }
+
+  /* Timeline mobile adjustments */
+  .timeline::before {
+    left: 30px;
+    transform: none;
+  }
+  
+  .timeline-item {
+    width: 100%;
+    margin-bottom: 3rem;
+  }
+  
+  .timeline-item.left,
+  .timeline-item.right {
+    left: 0;
+    padding-left: 70px;
+    padding-right: 1.5rem;
+    text-align: left;
+    transform: translateX(30px);
+  }
+  
+  .timeline-item.left .timeline-icon,
+  .timeline-item.right .timeline-icon {
+    left: 11px;
+    right: auto;
+  }
+
+  .timeline-content {
+    max-width: 100%;
+    display: block;
   }
 }
 
